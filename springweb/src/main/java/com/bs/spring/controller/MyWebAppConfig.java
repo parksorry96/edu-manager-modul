@@ -1,15 +1,23 @@
 package com.bs.spring.controller;
 
 import com.bs.spring.common.interceptor.BasicInterceptor;
+import com.bs.spring.common.propertyData.PropertyData;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
+import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration //설정클래스를 선언하는 어노테이션 ==springbean-configuration.xml
 @EnableWebMvc   // mvc:annotaion-driven 설정과 동일
@@ -35,5 +43,17 @@ public class MyWebAppConfig  implements WebMvcConfigurer {
         return viewResolver;
 
 
+    }
+
+    @Bean
+    DataSource dataSource(@Autowired PropertyData data){
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(data.getDbUrl());
+        return dataSource;
+    }
+    @Bean
+    public HandlerExceptionResolver handlerExceptionResolver() {
+        Properties prop=new Properties();
+        prop.setProperty(IllegalArgumentException.class.getName(), "common/error/error1");
     }
 }

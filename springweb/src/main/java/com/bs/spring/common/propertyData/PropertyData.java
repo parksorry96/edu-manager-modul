@@ -15,4 +15,9 @@ public class PropertyData {
     private String dbUrl;
     @Value("${data.students}")
     private String students;
+//    @Value("${user}")
+//    private String user;
+//    @Value("${pw}")
+//    private String pw;
+//
 }
