@@ -4,6 +4,7 @@ package com.bs.spring.demo.controller;
 import com.bs.spring.demo.model.dto.Address;
 import com.bs.spring.demo.model.dto.Demo;
 import com.bs.spring.demo.view.MyView;
+import com.bs.spring.member.model.dto.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -30,12 +31,16 @@ public class DemoController {
     //컨트롤러 클래스에는 매핑메소드를 선언함
     // @RequestMapping, @GetMapping, @PostMapping ...
     @RequestMapping("/demo.do")
-    public String demo() {
+    public String demo(@ModelAttribute("demo") Demo m) {
 
         //화면전환 용 메소드
         // 등록된 ViewResolver구현체가 자동으로 실행됨
         // ViewResolver가 응답하는대로 화면이 출력
         // /WEB-INF/views/demo/demo.jsp 로 dispatcher.forward()
+//        if(1==1)
+//            throw new IllegalArgumentException("demo에서 발생");
+//        String name=null;
+//        name.length();
         return "demo/demo";
     }
 

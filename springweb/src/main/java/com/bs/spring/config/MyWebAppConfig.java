@@ -1,20 +1,21 @@
-package com.bs.spring.controller;
+package com.bs.spring.config;
 
 import com.bs.spring.common.interceptor.BasicInterceptor;
 import com.bs.spring.common.propertyData.PropertyData;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -51,9 +52,26 @@ public class MyWebAppConfig  implements WebMvcConfigurer {
         dataSource.setDriverClassName(data.getDbUrl());
         return dataSource;
     }
+
+    //ExceptionHandler 등록하기
     @Bean
     public HandlerExceptionResolver handlerExceptionResolver() {
         Properties prop=new Properties();
-        prop.setProperty(IllegalArgumentException.class.getName(), "common/error/error1");
+//        prop.setProperty(IllegalArgumentException.class.getName(), "common/error/error1");
+        prop.setProperty(NullPointerException.class.getName(), "common/error/error2");
+//        prop.setProperty(MyException.class.getName(), "common/error/error3");
+        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+        exceptionResolver.setExceptionMappings(prop);
+
+        return exceptionResolver;
+    }
+
+    //국제화 메세지처리하기
+    @Bean
+    MessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
 }

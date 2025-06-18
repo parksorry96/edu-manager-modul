@@ -7,6 +7,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -60,10 +62,36 @@ public class MemberController {
 //        return "member/memberEnroll";
 //    }
 //    @RequestMapping(value="/enrollmemberend.do", method= RequestMethod.POST)
+//    @PostMapping("/enrollmemberend.do")
+//    public String enrollMemberEnd(@ModelAttribute Member member, Model model) {
+//        String password=member.getPassword();
+//        member.setPassword(passwordEncoder.encode(password));
+//        int result = memberService.enrollMember(member);
+//        if (result == 0) {
+//            model.addAttribute("msg", "회원가입 실패");
+//            model.addAttribute("loc", "/");
+//
+//        } else {
+//            model.addAttribute("msg", "회원가입 성공");
+//            model.addAttribute("loc", "/");
+//        }
+//        return "common/msg";
+//
+//    }
+
+@RequestMapping("/enrollmember.do")
+public String enrollMember(@ModelAttribute("member")Member member) {
+    return "member/memberEnroll";
+}
     @PostMapping("/enrollmemberend.do")
-    public String enrollMemberEnd(@ModelAttribute Member member, Model model) {
+    public String enrollMemberEnd(@Validated Member member, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(System.out::println);
+            return "/member/memberEnroll";
+        }
         String password=member.getPassword();
         member.setPassword(passwordEncoder.encode(password));
+
         int result = memberService.enrollMember(member);
         if (result == 0) {
             model.addAttribute("msg", "회원가입 실패");

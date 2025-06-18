@@ -46,6 +46,24 @@
           <li class="nav-item active">
             <a class="nav-link" href="${path}/demo/demo.do">DEMO(controller-test)</a>
           </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="${path}/exceptiontest/illegal">exceptionTest-Illegal</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="${path}/exceptiontest/nullPoint">exceptionTest-NullPointer</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="${path}/exceptiontest/my">exceptionTest-MyException</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="${path}/national">국제화처리하기</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="${path}/validator/demo">BeanValidator 이용하기</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="${path}/board/boardList.do/">게시판</a>
+          </li>
         </ul>
         <c:if test="${empty sessionScope.loginMember}">>
         <button class="btn btn-outline-success my-2 my-sm-0"
